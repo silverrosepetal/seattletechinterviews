@@ -4,6 +4,7 @@ import org.w3c.dom.Attr;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -70,15 +71,26 @@ public class EncodeXML {
     public static List<String> getWords(List<String> dictionary, String matchWord)
     {
         List<String> result = new ArrayList<String>();
+        HashMap<String, Boolean> wordMap = new HashMap<String, Boolean>();
+
         for(String s : dictionary)
         {
+            wordMap.put(s, true);
+
             if(s.contains(matchWord))
             {
                 String temp = s.replace(matchWord, "");
-                if(dictionary.contains(temp))
-                {
-                    result.add(s);
-                }
+                result.add(temp);
+            }
+        }
+
+        Iterator<String> iter = result.iterator();
+        
+        while(iter.hasNext())
+        {
+            if(wordMap.get(iter.next()) == null)
+            {
+                iter.remove();
             }
         }
         return result;
